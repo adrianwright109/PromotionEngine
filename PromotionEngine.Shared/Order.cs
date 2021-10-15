@@ -5,101 +5,109 @@ namespace PromotionEngine.SharedLibrary
     {
         public Order(Dictionary<TProduct, int> orderItems)
         {
-            Items = orderItems;
+            AllOrderItems = orderItems;
             ActivePromotions = new List<Promotion<TProduct>>();    
         }
 
         public Order(Dictionary<TProduct, int> orderItems, List<Promotion<TProduct>> promotions)
         {
-            Items = orderItems;
+            AllOrderItems = orderItems;
             ActivePromotions = promotions.Where(x => x.IsActive).ToList();
         }
 
-        public Dictionary<TProduct, int> Items { get; }
+        public Dictionary<TProduct, int> AllOrderItems { get; }
+
+        public Dictionary<TProduct, int> OrderItemsWithQuantities => AllOrderItems.Where(x => x.Value > 0).ToDictionary(x => x.Key, x=> x.Value);
 
         public List<Promotion<TProduct>> ActivePromotions { get; }
 
-        public int Total
+        public void UpdateQuantity(TProduct orderItem, int newQuantity)
         {
-            get
+            if (AllOrderItems.ContainsKey(orderItem))
             {
-                var total = 0;
-                var linkedProductSkuIdsAlreadyCalculated = new List<string>();
+                AllOrderItems[orderItem] = newQuantity;
+                CalculateTotal();
+            }
+        }
 
-                foreach(var item in Items)
+        public int Total { get; private set; }
+
+        public void CalculateTotal()
+        {
+            Total = 0;
+            var linkedProductSkuIdsAlreadyCalculated = new List<string>();
+
+            foreach (var item in OrderItemsWithQuantities)
+            {
+                var hasPromotion = false;
+
+                foreach (var promotion in ActivePromotions)
                 {
-                    var hasPromotion = false;
-
-                    foreach(var promotion in ActivePromotions)
+                    if (item.Key.SkuId == promotion.PromotionalProduct.SkuId)
                     {
-                        if (item.Key.SkuId == promotion.PromotionalProduct.SkuId)
+                        hasPromotion = true;
+
+                        if (promotion.QuantityTheshold.HasValue)
                         {
-                            hasPromotion = true;
+                            var quantityOfThisProductOnOrder = item.Value;
 
-                            if (promotion.QuantityTheshold.HasValue)
+                            if (quantityOfThisProductOnOrder >= promotion.QuantityTheshold.Value)
                             {
-                                var quantityOfThisProductOnOrder = item.Value;
+                                var numberOverTheshold = quantityOfThisProductOnOrder % promotion.QuantityTheshold.Value;
 
-                                if (quantityOfThisProductOnOrder >= promotion.QuantityTheshold.Value)
+                                Total += promotion.DiscountedPrice * ((quantityOfThisProductOnOrder - numberOverTheshold) / promotion.QuantityTheshold.Value);
+
+                                if (numberOverTheshold > 0)
                                 {
-                                    var numberOverTheshold = quantityOfThisProductOnOrder % promotion.QuantityTheshold.Value;
-
-                                    total += promotion.DiscountedPrice * ((quantityOfThisProductOnOrder - numberOverTheshold) / promotion.QuantityTheshold.Value);
-
-                                    if (numberOverTheshold > 0)
-                                    {
-                                        total += numberOverTheshold * item.Key.UnitPrice;
-                                    }
-                                }
-                                else
-                                {
-                                    total += quantityOfThisProductOnOrder * item.Key.UnitPrice;
+                                    Total += numberOverTheshold * item.Key.UnitPrice;
                                 }
                             }
-                            else if (promotion.LinkedProduct is not null)
+                            else
                             {
-                                var orderContainsALinkedProductForPromotionalDiscount = false;
+                                Total += quantityOfThisProductOnOrder * item.Key.UnitPrice;
+                            }
+                        }
+                        else if (promotion.LinkedProduct is not null)
+                        {
+                            var orderContainsALinkedProductForPromotionalDiscount = false;
 
-                                foreach(var linkedProduct in Items)
-                                {
-                                    if (!LinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId)
-                                            && linkedProduct.Key.SkuId == promotion.LinkedProduct.SkuId)
-                                    {
-                                        SetLinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId);
-
-                                        orderContainsALinkedProductForPromotionalDiscount = true;
-                                        total += promotion.DiscountedPrice;
-                                    }
-                                }
-
+                            foreach (var linkedProduct in OrderItemsWithQuantities)
+                            {
                                 if (!LinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId)
-                                        && !orderContainsALinkedProductForPromotionalDiscount)
+                                        && linkedProduct.Key.SkuId == promotion.LinkedProduct.SkuId)
                                 {
-                                    total += item.Value * item.Key.UnitPrice;
+                                    SetLinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId);
+
+                                    orderContainsALinkedProductForPromotionalDiscount = true;
+                                    Total += promotion.DiscountedPrice;
                                 }
+                            }
+
+                            if (!LinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId)
+                                    && !orderContainsALinkedProductForPromotionalDiscount)
+                            {
+                                Total += item.Value * item.Key.UnitPrice;
                             }
                         }
                     }
-
-                    if (!hasPromotion)
-                    {
-                        total += item.Value * item.Key.UnitPrice;
-                    }
                 }
 
-                return total;
-
-                void SetLinkedProductsAlreadyCalculated(string productSkuId, string linkedProductSkuId)
+                if (!hasPromotion)
                 {
-                    linkedProductSkuIdsAlreadyCalculated.Add(productSkuId);
-                    linkedProductSkuIdsAlreadyCalculated.Add(linkedProductSkuId);
+                    Total += item.Value * item.Key.UnitPrice;
                 }
+            }
 
-                bool LinkedProductsAlreadyCalculated(string productSkuId, string linkedProductSkuId)
-                {
-                    return linkedProductSkuIdsAlreadyCalculated.Contains(productSkuId)
-                                        && linkedProductSkuIdsAlreadyCalculated.Contains(linkedProductSkuId);
-                }
+            void SetLinkedProductsAlreadyCalculated(string productSkuId, string linkedProductSkuId)
+            {
+                linkedProductSkuIdsAlreadyCalculated.Add(productSkuId);
+                linkedProductSkuIdsAlreadyCalculated.Add(linkedProductSkuId);
+            }
+
+            bool LinkedProductsAlreadyCalculated(string productSkuId, string linkedProductSkuId)
+            {
+                return linkedProductSkuIdsAlreadyCalculated.Contains(productSkuId)
+                                    && linkedProductSkuIdsAlreadyCalculated.Contains(linkedProductSkuId);
             }
         }
     }

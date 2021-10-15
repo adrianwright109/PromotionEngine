@@ -1,8 +1,8 @@
-﻿<h3>OrderItem</h3>
+﻿<label>@Item.SkuId</label>
 
-<label>@Item.SkuId</label>
-
-<input type="number" min="0" max="999" step="1" bind-Value="@Quantity" @onchange="ChangeQuantity" />
+<input type="number" min="0" max="999" step="1" value="@Quantity" @onchange="ChangeQuantity" />
+<br />
+<br />
 
 @code {
     [EditorRequired]
@@ -14,10 +14,11 @@
     public int Quantity { get; set; }
 
     [Parameter]
-    public EventCallback<(ProductBase product, int Quanity)> QuantityChanged { get; set; }
+    public EventCallback<(ProductBase product, int Quanity)> OnQuantityChanged { get; set; }
 
-    private async Task ChangeQuantity()
+    private async Task ChangeQuantity(ChangeEventArgs args)
     {
-        await QuantityChanged.InvokeAsync((Item, Quantity));
+        Quantity = Convert.ToInt32(args.Value.ToString());
+        await OnQuantityChanged.InvokeAsync((Item, Quantity));
     }
 }

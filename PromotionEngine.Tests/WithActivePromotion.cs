@@ -17,6 +17,9 @@ namespace PromotionEngine.Tests
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
+            //ACT
+            order.CalculateTotal();
+
             //ASSERT
             Assert.Equal(100, order.Total);
         }
@@ -31,6 +34,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(130, order.Total);
@@ -47,6 +53,9 @@ namespace PromotionEngine.Tests
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
+            //ACT
+            order.CalculateTotal();
+
             //ASSERT
             Assert.Equal(180, order.Total);
         }
@@ -61,6 +70,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(30, order.Total);
@@ -77,6 +89,9 @@ namespace PromotionEngine.Tests
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
+            //ACT
+            order.CalculateTotal();
+
             //ASSERT
             Assert.Equal(45, order.Total);
         }
@@ -91,6 +106,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(75, order.Total);
@@ -107,6 +125,9 @@ namespace PromotionEngine.Tests
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
+            //ACT
+            order.CalculateTotal();
+
             //ASSERT
             Assert.Equal(20, order.Total);
         }
@@ -121,6 +142,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(40, order.Total);
@@ -138,6 +162,9 @@ namespace PromotionEngine.Tests
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
+            //ACT
+            order.CalculateTotal();
+
             //ASSERT
             Assert.Equal(30, order.Total);
         }
@@ -152,6 +179,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(15, order.Total);
@@ -168,6 +198,9 @@ namespace PromotionEngine.Tests
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
+            //ACT
+            order.CalculateTotal();
+
             //ASSERT
             Assert.Equal(30, order.Total);
         }
@@ -183,6 +216,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(30, order.Total);

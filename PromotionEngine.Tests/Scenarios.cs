@@ -27,6 +27,9 @@ namespace PromotionEngine.Tests
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, _promotions);
 
+            //ACT
+            order.CalculateTotal();
+
             //ASSERT
             Assert.Equal(100, order.Total);
         }
@@ -43,6 +46,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(370, order.Total);
@@ -61,6 +67,9 @@ namespace PromotionEngine.Tests
 
             //ARRANGE
             var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ACT
+            order.CalculateTotal();
 
             //ASSERT
             Assert.Equal(280, order.Total);

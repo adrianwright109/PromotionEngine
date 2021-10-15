@@ -8,9 +8,9 @@
 }
 else
 {
-    @foreach(var orderItem in _order.Items)
+    @foreach(var orderItem in _order.AllOrderItems)
     {
-        <OrderItem @key="orderItem" Item="@orderItem.Key" Quantity="@orderItem.Value" OnQuantityChanged="" />
+        <OrderItem @key="orderItem" Item="@orderItem.Key" Quantity="@orderItem.Value" OnQuantityChanged="QuantityChanged" />
     }
 
     <p>Order Total: </p>@_order.Total.ToString("C")
@@ -31,8 +31,8 @@ else
         return base.OnInitializedAsync();
     }
 
-    private void UpdateLastMultipleOfThreeValue((ProductBase Product, int Quanity) args)
+    private void QuantityChanged((ProductBase Product, int Quanity) args)
     {
-        _order.UpdateQuantity(args.product, args.Quanity);
+        _order.UpdateQuantity(args.Product, args.Quanity);
     }
 }
