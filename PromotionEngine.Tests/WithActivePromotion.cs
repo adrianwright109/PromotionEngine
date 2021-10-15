@@ -103,5 +103,97 @@ namespace PromotionEngine.Tests
             //ASSERT
             Assert.Equal(75, order.Total);
         }
+
+        [Fact]
+        public void OneUnitOfProductCWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductC(), 1 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(20, order.Total);
+        }
+
+        [Fact]
+        public void TwoUnitsOfProductCWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductC(), 2 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(40, order.Total);
+        }
+
+        [Fact]
+        public void OneUnitOfProductCAndOneUnitOfProductDWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductC(), 1 },
+                { new ProductD(), 1 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(30, order.Total);
+        }
+
+        [Fact]
+        public void OneUnitOfProductDWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductD(), 1 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(15, order.Total);
+        }
+
+        [Fact]
+        public void TwoUnitsOfProductDWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductD(), 2 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(30, order.Total);
+        }
+
+        [Fact]
+        public void OneUnitOfProductDAndOneUnitOfProductCWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductD(), 1 },
+                { new ProductC(), 1 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(30, order.Total);
+        }
     }
 }
