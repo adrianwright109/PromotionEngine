@@ -44,7 +44,7 @@ namespace PromotionEngine.Shared
                                 {
                                     var numberOverTheshold = quantityOfThisProductOnOrder % promotion.QuantityTheshold.Value;
 
-                                    total += promotion.DiscountedPrice;
+                                    total += promotion.DiscountedPrice * ((quantityOfThisProductOnOrder - numberOverTheshold) / promotion.QuantityTheshold.Value);
 
                                     if (numberOverTheshold > 0)
                                     {
