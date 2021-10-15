@@ -20,4 +20,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PromotionEngine.Shared\PromotionEngine.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
