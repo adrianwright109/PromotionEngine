@@ -58,25 +58,22 @@ namespace PromotionEngine.Shared
                             }
                             else if (promotion.LinkedProduct is not null)
                             {
-                                var hasLinkedPromotionalProductInOrder = false;
+                                var orderContainsALinkedProductForPromotionalDiscount = false;
 
                                 foreach(var linkedProduct in Items)
                                 {
-                                    if (!linkedProductSkuIdsAlreadyCalculated.Contains(item.Key.SkuId) 
-                                        && !linkedProductSkuIdsAlreadyCalculated.Contains(promotion.LinkedProduct.SkuId)
+                                    if (!LinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId)
                                             && linkedProduct.Key.SkuId == promotion.LinkedProduct.SkuId)
                                     {
-                                        linkedProductSkuIdsAlreadyCalculated.Add(item.Key.SkuId);
-                                        linkedProductSkuIdsAlreadyCalculated.Add(promotion.LinkedProduct.SkuId);
+                                        SetLinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId);
 
-                                        hasLinkedPromotionalProductInOrder = true;
+                                        orderContainsALinkedProductForPromotionalDiscount = true;
                                         total += promotion.DiscountedPrice;
                                     }
                                 }
 
-                                if (!linkedProductSkuIdsAlreadyCalculated.Contains(item.Key.SkuId)
-                                        && !linkedProductSkuIdsAlreadyCalculated.Contains(promotion.LinkedProduct.SkuId)
-                                        && !hasLinkedPromotionalProductInOrder)
+                                if (!LinkedProductsAlreadyCalculated(item.Key.SkuId, promotion.LinkedProduct.SkuId)
+                                        && !orderContainsALinkedProductForPromotionalDiscount)
                                 {
                                     total += item.Value * item.Key.UnitPrice;
                                 }
@@ -91,6 +88,18 @@ namespace PromotionEngine.Shared
                 }
 
                 return total;
+
+                void SetLinkedProductsAlreadyCalculated(string productSkuId, string linkedProductSkuId)
+                {
+                    linkedProductSkuIdsAlreadyCalculated.Add(productSkuId);
+                    linkedProductSkuIdsAlreadyCalculated.Add(linkedProductSkuId);
+                }
+
+                bool LinkedProductsAlreadyCalculated(string productSkuId, string linkedProductSkuId)
+                {
+                    return linkedProductSkuIdsAlreadyCalculated.Contains(productSkuId)
+                                        && linkedProductSkuIdsAlreadyCalculated.Contains(linkedProductSkuId);
+                }
             }
         }
     }
