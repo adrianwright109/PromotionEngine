@@ -24,6 +24,7 @@ namespace PromotionEngine.Shared
             get
             {
                 var total = 0;
+                var linkedProductSkuIdsAlreadyCalculated = new List<string>();
 
                 foreach(var item in Items)
                 {
@@ -57,7 +58,28 @@ namespace PromotionEngine.Shared
                             }
                             else if (promotion.LinkedProduct is not null)
                             {
+                                var hasLinkedPromotionalProductInOrder = false;
 
+                                foreach(var linkedProduct in Items)
+                                {
+                                    if (!linkedProductSkuIdsAlreadyCalculated.Contains(item.Key.SkuId) 
+                                        && !linkedProductSkuIdsAlreadyCalculated.Contains(promotion.LinkedProduct.SkuId)
+                                            && linkedProduct.Key.SkuId == promotion.LinkedProduct.SkuId)
+                                    {
+                                        linkedProductSkuIdsAlreadyCalculated.Add(item.Key.SkuId);
+                                        linkedProductSkuIdsAlreadyCalculated.Add(promotion.LinkedProduct.SkuId);
+
+                                        hasLinkedPromotionalProductInOrder = true;
+                                        total += promotion.DiscountedPrice;
+                                    }
+                                }
+
+                                if (!linkedProductSkuIdsAlreadyCalculated.Contains(item.Key.SkuId)
+                                        && !linkedProductSkuIdsAlreadyCalculated.Contains(promotion.LinkedProduct.SkuId)
+                                        && !hasLinkedPromotionalProductInOrder)
+                                {
+                                    total += item.Value * item.Key.UnitPrice;
+                                }
                             }
                         }
                     }
