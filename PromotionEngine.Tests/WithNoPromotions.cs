@@ -9,9 +9,9 @@ namespace PromotionEngine.Tests
         [Fact]
         public void OneUnitOfProductAWithNoPromotionAppliedHasCorrectTotal()
         {
-            var orderItems = new List<ProductBase>
+            var orderItems = new Dictionary<ProductBase, int>
             {
-                new ProductA()
+                { new ProductA(), 1 }
             };
 
             //ARRANGE
@@ -24,9 +24,9 @@ namespace PromotionEngine.Tests
         [Fact]
         public void OneUnitOfProductBWithNoPromotionAppliedHasCorrectTotal()
         {
-            var orderItems = new List<ProductBase>
+            var orderItems = new Dictionary<ProductBase, int>
             {
-                new ProductB()
+                { new ProductB(), 1 }
             };
 
             //ARRANGE
@@ -39,9 +39,9 @@ namespace PromotionEngine.Tests
         [Fact]
         public void OneUnitOfProductCWithNoPromotionAppliedHasCorrectTotal()
         {
-            var orderItems = new List<ProductBase>
+            var orderItems = new Dictionary<ProductBase, int>
             {
-                new ProductC()
+                { new ProductC(), 1 }
             };
 
             //ARRANGE
@@ -54,9 +54,9 @@ namespace PromotionEngine.Tests
         [Fact]
         public void OneUnitOfProductDWithNoPromotionAppliedHasCorrectTotal()
         {
-            var orderItems = new List<ProductBase>
+            var orderItems = new Dictionary<ProductBase, int>
             {
-                new ProductD()
+                { new ProductD(), 1 }
             };
 
             //ARRANGE
@@ -69,12 +69,12 @@ namespace PromotionEngine.Tests
         [Fact]
         public void OneUnitOfEachProductWithNoPromotionAppliedHasCorrectTotal()
         {
-            var orderItems = new List<ProductBase>
+            var orderItems = new Dictionary<ProductBase, int>
             {
-                new ProductA(),
-                new ProductB(),
-                new ProductC(),
-                new ProductD()
+                { new ProductA(), 1 },
+                { new ProductB(), 1 },
+                { new ProductC(), 1 },
+                { new ProductD(), 1 }
             };
 
             //ARRANGE
