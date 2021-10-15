@@ -65,5 +65,23 @@ namespace PromotionEngine.Tests
             //ASSERT
             Assert.Equal(15, order.Total);
         }
+
+        [Fact]
+        public void OneUnitOfEachProductWithNoPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new List<ProductBase>
+            {
+                new ProductA(),
+                new ProductB(),
+                new ProductC(),
+                new ProductD()
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems);
+
+            //ASSERT
+            Assert.Equal(50 + 30 + 20 + 15, order.Total);
+        }
     }
 }
