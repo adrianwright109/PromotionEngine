@@ -1,4 +1,4 @@
-﻿namespace PromotionEngine.Shared
+﻿namespace PromotionEngine.SharedLibrary
 {
     public class ProductA : ProductBase
     {

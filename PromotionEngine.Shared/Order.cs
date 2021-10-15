@@ -1,5 +1,5 @@
 ﻿
-namespace PromotionEngine.Shared
+namespace PromotionEngine.SharedLibrary
 {
     public class Order<TProduct> where TProduct : ProductBase
     {

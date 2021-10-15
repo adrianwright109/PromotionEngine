@@ -1,0 +1,23 @@
+﻿<h3>OrderItem</h3>
+
+<label>@Item.SkuId</label>
+
+<input type="number" min="0" max="999" step="1" bind-Value="@Quantity" @onchange="ChangeQuantity" />
+
+@code {
+    [EditorRequired]
+    [Parameter]
+    public ProductBase Item { get; set; }
+
+    [EditorRequired]
+    [Parameter]
+    public int Quantity { get; set; }
+
+    [Parameter]
+    public EventCallback<(ProductBase product, int Quanity)> QuantityChanged { get; set; }
+
+    private async Task ChangeQuantity()
+    {
+        await QuantityChanged.InvokeAsync((Item, Quantity));
+    }
+}

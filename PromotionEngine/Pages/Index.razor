@@ -2,8 +2,37 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (_order == null)
+{
+    <p>Loading Order</p>
+}
+else
+{
+    @foreach(var orderItem in _order.Items)
+    {
+        <OrderItem @key="orderItem" Item="@orderItem.Key" Quantity="@orderItem.Value" OnQuantityChanged="" />
+    }
 
-Welcome to your new app.
+    <p>Order Total: </p>@_order.Total.ToString("C")
+}
+@code {
+    private Order<ProductBase>? _order = null;
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    protected override Task OnInitializedAsync()
+    {
+        _order = new Order<ProductBase>(new Dictionary<ProductBase, int>
+            {
+                { new ProductA(), 0 },
+                { new ProductB(), 0 },
+                { new ProductC(), 0 },
+                { new ProductD(), 0 }
+            }, ActivePromotions.Promotions);
+
+        return base.OnInitializedAsync();
+    }
+
+    private void UpdateLastMultipleOfThreeValue((ProductBase Product, int Quanity) args)
+    {
+        _order.UpdateQuantity(args.product, args.Quanity);
+    }
+}

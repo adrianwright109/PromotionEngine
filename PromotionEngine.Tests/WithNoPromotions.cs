@@ -1,4 +1,4 @@
-using PromotionEngine.Shared;
+using PromotionEngine.SharedLibrary;
 using System.Collections.Generic;
 using Xunit;
 

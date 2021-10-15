@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PromotionEngine.Shared\PromotionEngine.Shared.csproj" />
+    <ProjectReference Include="..\PromotionEngine.Shared\PromotionEngine.SharedLibrary.csproj" />
   </ItemGroup>
 
 </Project>

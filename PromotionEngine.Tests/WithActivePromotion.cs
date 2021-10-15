@@ -1,4 +1,4 @@
-using PromotionEngine.Shared;
+using PromotionEngine.SharedLibrary;
 using System.Collections.Generic;
 using Xunit;
 
@@ -6,14 +6,6 @@ namespace PromotionEngine.Tests
 {
     public class WithActivePromotion
     {
-        private readonly List<Promotion<ProductBase>> _promotions = new List<Promotion<ProductBase>>()
-        {
-            new Promotion<ProductBase>(new ProductA(), 3, 130, isActive: true),
-            new Promotion<ProductBase>(new ProductB(), 2, 45, isActive: true),
-            new Promotion<ProductBase>(new ProductC(), new ProductD(), 30, isActive: true),
-            new Promotion<ProductBase>(new ProductD(), new ProductC(), 30, isActive: true)
-        };
-
         [Fact]
         public void TwoUnitsOfProductAWithPromotionAppliedHasCorrectTotal()
         {
@@ -23,7 +15,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(100, order.Total);
@@ -38,7 +30,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(130, order.Total);
@@ -53,7 +45,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(180, order.Total);
@@ -68,7 +60,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(30, order.Total);
@@ -83,7 +75,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(45, order.Total);
@@ -98,7 +90,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(75, order.Total);
@@ -113,7 +105,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(20, order.Total);
@@ -128,7 +120,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(40, order.Total);
@@ -144,7 +136,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(30, order.Total);
@@ -159,7 +151,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(15, order.Total);
@@ -174,7 +166,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(30, order.Total);
@@ -190,7 +182,7 @@ namespace PromotionEngine.Tests
             };
 
             //ARRANGE
-            var order = new Order<ProductBase>(orderItems, _promotions);
+            var order = new Order<ProductBase>(orderItems, ActivePromotions.Promotions);
 
             //ASSERT
             Assert.Equal(30, order.Total);
