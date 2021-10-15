@@ -58,5 +58,50 @@ namespace PromotionEngine.Tests
             //ASSERT
             Assert.Equal(180, order.Total);
         }
+
+        [Fact]
+        public void OneUnitOfProductBWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductB(), 1 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(30, order.Total);
+        }
+
+        [Fact]
+        public void TwoUnitsOfProductBWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductB(), 2 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(45, order.Total);
+        }
+
+        [Fact]
+        public void ThreeUnitsOfProductBWithPromotionAppliedHasCorrectTotal()
+        {
+            var orderItems = new Dictionary<ProductBase, int>
+            {
+                { new ProductB(), 3 }
+            };
+
+            //ARRANGE
+            var order = new Order<ProductBase>(orderItems, _promotions);
+
+            //ASSERT
+            Assert.Equal(75, order.Total);
+        }
     }
 }
